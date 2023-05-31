@@ -1,10 +1,9 @@
 const submit = document.querySelector("button");
 const roverOutput = document.getElementsByClassName("output");
 
-
-const mapEdge = [9, 9];
-const testPosition = [1, 1, "N"];
-const testInstructions = "MLMMRLMMMLMMRMMML";
+// const mapEdge = [9, 9];
+// const testPosition = [1, 1, "N"];
+// const testInstructions = "MLMMRLMMMLMMRMMML";
 
 class Rover{
     constructor(position, instructions){
@@ -80,11 +79,11 @@ class Rover{
 
 submit.addEventListener('click', e => {
     e.preventDefault();
-    const userMapEdge = document.getElementsByClassName("mapEdge")[0].value;
-    const userXCoordinate = document.getElementsByClassName("xCoordinate")[0].value;
-    const userYCoordinate = document.getElementsByClassName("yCoordinate")[0].value;
-    const userDirection = document.getElementsByClassName("direction")[0].value;
-    const userInstructions = document.getElementsByClassName("instructions")[0].value;
+    const userMapEdge = document.getElementsByClassName("mapEdge")[0].value.trim();
+    const userXCoordinate = document.getElementsByClassName("xCoordinate")[0].value.trim();
+    const userYCoordinate = document.getElementsByClassName("yCoordinate")[0].value.trim();
+    const userDirection = document.getElementsByClassName("direction")[0].value.trim();
+    const userInstructions = document.getElementsByClassName("instructions")[0].value.trim();
     mapEdge[0] = userMapEdge;
     mapEdge[1] = userMapEdge;
     let assembledUserCoordinates = [0, 0, 0]
