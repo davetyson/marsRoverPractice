@@ -1,3 +1,7 @@
+const submit = document.querySelector("button");
+const roverOutput = document.getElementsByClassName("output");
+
+
 const mapEdge = [9, 9];
 const testPosition = [1, 1, "N"];
 const testInstructions = "MLMMRLMMMLMMRMMML";
@@ -69,8 +73,25 @@ class Rover{
 
     printRoverOutput(){
         console.log(this.roverOutput);
+        let stringifiedRoverOutput = this.roverOutput[0] + ', ' + this.roverOutput[1] + ', ' + this.roverOutput[2];
+        roverOutput[0].innerHTML = stringifiedRoverOutput;
     }
 }
 
-const testRover = new Rover(testPosition, testInstructions);
-testRover.printRoverOutput();
+submit.addEventListener('click', e => {
+    e.preventDefault();
+    const userMapEdge = document.getElementsByClassName("mapEdge")[0].value;
+    const userXCoordinate = document.getElementsByClassName("xCoordinate")[0].value;
+    const userYCoordinate = document.getElementsByClassName("yCoordinate")[0].value;
+    const userDirection = document.getElementsByClassName("direction")[0].value;
+    const userInstructions = document.getElementsByClassName("instructions")[0].value;
+    mapEdge[0] = userMapEdge;
+    mapEdge[1] = userMapEdge;
+    let assembledUserCoordinates = [0, 0, 0]
+    assembledUserCoordinates[0] = userXCoordinate;
+    assembledUserCoordinates[1] = userYCoordinate;
+    assembledUserCoordinates[2] = userDirection;
+    const testRover = new Rover(assembledUserCoordinates, userInstructions);
+    testRover.printRoverOutput();
+})
+

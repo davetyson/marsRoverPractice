@@ -7,18 +7,32 @@
     <title>Mars Rover Challenge Practice</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <h1>The Mars Rover Challenge🚀</h1>
-    <p>Enter your Mars Rover inputs here</p>
-    <form action="">
-        <fieldset>
-            <label for="mapEdge">How many rows/columns?</label>
-            <input name="mapEdge" type="text">
-            <label for="coordinates">Your coordinates</label>
-            <input name="coordinates" type="text">
-        </fieldset>
-    </form>
-    <h2></h2>
+<body class="wrapper">
+    <header>
+        <h1>The Mars Rover Challenge🚀</h1>
+    </header>
+    <main>
+        <p>Enter your Mars Rover inputs here</p>
+        <form action="">
+            <fieldset>
+                <label for="mapEdge">How many rows/columns? Please enter one number to be used for both</label>
+                <input class="mapEdge"name="mapEdge" type="text">
+                <label for="xCoordinate">What X coordinate will you start from?</label>
+                <input class="xCoordinate" name="xCoordinate" type="text">
+                <label for="yCoordinate">What Y coordinate will you start from?</label>
+                <input class="yCoordinate" name="direction" type="text">
+                <label for="direction">What direction will you face when you start?</label>
+                <input class="direction" name="direction" type="text">
+                <label for="instructions">Please enter a series of characters, using only "L" or "R" to turn left or right, or "M" to move forward 1 space (e.g. RMMLMMMRRMML)</label>
+                <input class="instructions" name="instructions" type="text">
+                <button>Submit</button>
+            </fieldset>
+        </form>
+        <h2 class="output">Generate a new rover to see the final coordinates here</h2>
+    </main>
+    <footer>
+        <p>Dave Tyson, 2023</p>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
