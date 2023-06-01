@@ -59,6 +59,7 @@ button {
     margin: 10px auto;
     padding: 10px;
     background-color: orange;
+    color: #000;
     width: 150px;
     font-family: 'Quantico', sans-serif;
     border-radius: 2rem;
