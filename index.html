@@ -5,22 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mars Rover Challenge Practice</title>
+    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="wrapper">
     <header>
-        <h1>The Mars Rover Challenge🚀</h1>
+        <h1>The Mars Rover Challenge 🚀</h1>
     </header>
     <main>
-        <p>Enter your Mars Rover inputs here</p>
+        <p>This is a website designed to launch new Mars Rovers as per Google's <a href="https://code.google.com/archive/p/marsrovertechchallenge/">Mars Rover Technical Challenge</a>. To launch a new rover, you will need to decide how big your grid is (how many rows/columns), your starting position (X, Y, and directional coordinates), and your movements (entered as "L" to turn left, "R" to turn right, and "M" to go forward in your current direction by one position, i.e. RMMLMMMRRMM).</p>
+        <p class="yellowP">Enter your Mars Rover inputs here</p>
         <form action="">
             <fieldset>
                 <label for="mapEdge">How many rows/columns? Please enter one number to be used for both</label>
-                <input class="mapEdge"name="mapEdge" type="text">
+                <input class="mapEdge"name="mapEdge" type="number">
                 <label for="xCoordinate">What X coordinate will you start from?</label>
-                <input class="xCoordinate" name="xCoordinate" type="text">
+                <input class="xCoordinate" name="xCoordinate" type="number">
                 <label for="yCoordinate">What Y coordinate will you start from?</label>
-                <input class="yCoordinate" name="direction" type="text">
+                <input class="yCoordinate" name="direction" type="number">
                 <label for="direction">What direction will you face when you start?</label>
                 <input class="direction" name="direction" type="text">
                 <label for="instructions">Please enter a series of characters, using only "L" or "R" to turn left or right, or "M" to move forward 1 space (e.g. RMMLMMMRRMML)</label>
