@@ -1,31 +1,12 @@
-// Goal: to refactor this to declutter the if/else statements and lean more into OOP classes
-
-// Thoughts:
-// I'm going to try to work more with classes to help me lodge more of the "checking" logic with the actual objects, so that they are generated with the correct answers attached, and I don't have to check their value with if/else's later.
-// Another goal is to break up the Rover movements so I can create one with initial coordinates, but then assign functions to the rover to deal with the movements. When the rover is created, it has its starting coordinates and all its functions to handle movement. Then we can call the movement function and pass in the instructions and loop through the instructions until we're at our destination. As we go through the different micro movements in the movement function (i.e. moving a coordinate forward or back by 1, changing direction), these can be other functions defined in the Rover class object that are called when needed (i.e. do we need to move the Y coordinate down by 1? call the yCoordMove function or something similar)
-
-// Get a few selections from the DOM to start
+// Get a few selections from the DOM and define some global variables
 const submit = document.querySelector("button");
 const roverOutput = document.getElementsByClassName("output");
-
-// define init mapEdge/user Coordinates
-let mapEdge = [0, 0];
+let currentX;
+let currentY;
+let currentDir;
 let assembledUserCoordinates = [0, 0, 0]
 
-// Test information that I was using before I went to the user input method
-// const mapEdge = [9, 9];
-// const testPosition = [1, 1, "N"];
-// const testInstructions = "MLMMRLMMMLMMRMMML";
-
-// new grid size function
-function gridSize(){
-        const userMapEdge = document.getElementsByClassName("mapEdge")[0].value.trim();
-        mapEdge[0] = userMapEdge;
-        mapEdge[1] = userMapEdge;
-        return mapEdge;
-}
-
-// new starting position function
+// function to determine start position of rover from user inputs
 function startPosition(){
         const userXCoordinate = document.getElementsByClassName("xCoordinate")[0].value.trim();
         const userYCoordinate = document.getElementsByClassName("yCoordinate")[0].value.trim();
@@ -33,113 +14,134 @@ function startPosition(){
         assembledUserCoordinates[0] = userXCoordinate;
         assembledUserCoordinates[1] = userYCoordinate;
         assembledUserCoordinates[2] = userDirection;
-        return assembledUserCoordinates;
 }
 
-// new instructions function
-function setInstructions(){
-    let userInstructions = document.getElementsByClassName("instructions")[0].value.trim().toUpperCase();
-    let instructionsSplit = userInstructions.split("");
-    return instructionsSplit;
+// Class for creating new Maps
+class Map{
+    constructor(size){
+        this.mapEdge = size;
+    }
 }
 
-// Rover class
+// Class for creating new Rovers
 class Rover{
 
-    // Rover constructor
+    // constructor function
     constructor(position){
-
-        // rename positions for easier use
         let xPosition = position[0];
         let yPosition = position[1];
         let direction = position[2];
-
         this.startPosition = [xPosition, yPosition, direction];
-        // return startPosition;
-
-        // // run through the list of instructions one by one and determine the appropriate movement (+1 to a position or change direction)
-        // for (let i = 0; i < instructions.length; i++){
-        //     if (instructions[i] === "M"){
-        //         if (direction === "N"){
-        //             yPosition++;
-        //             if (yPosition > mapEdge[1]){
-        //                 yPosition = 0
-        //             } else if (yPosition < 0){
-        //                 yPosition = mapEdge[1];
-        //             }
-        //         } else if (direction === "S"){
-        //                 yPosition--;
-        //                 if (yPosition > mapEdge[1]){
-        //                     yPosition = 0
-        //                 } else if (yPosition < 0){
-        //                     yPosition = mapEdge[1];
-        //                 }
-        //         } else if (direction === "E"){
-        //             xPosition++;
-        //             if (xPosition > mapEdge[0]){
-        //                 xPosition = 0
-        //             } else if (xPosition < 0){
-        //                 xPosition = mapEdge[0];
-        //             }
-        //         } else if (direction === "W"){
-        //             xPosition--;
-        //             if (xPosition > mapEdge[0]){
-        //                 xPosition = 0
-        //             } else if (xPosition < 0){
-        //                 xPosition = mapEdge[0];
-        //             }
-        //         }
-        //     } else if (instructions[i] === "R" || instructions[i] === "L"){
-        //         if (instructions[i] === "L"){
-        //             if (direction === "N") {
-        //                 direction = "W";
-        //             } else if (direction === "E"){
-        //                 direction = "N";
-        //             } else if (direction === "S"){
-        //                 direction = "E";
-        //             } else {
-        //                 direction = "S";
-        //             }
-        //         } else {
-        //             if (direction === "N") {
-        //                 direction = "E";
-        //             } else if (direction === "E"){
-        //                 direction = "S";
-        //             } else if (direction === "S"){
-        //                 direction = "W";
-        //             } else {
-        //                 direction = "N";
-        //             }
-        //         }
-        //     }
-        // }
-
-        // // assign the rover coordinates to roverOutput each time the loop runs
-        // this.roverOutput = [xPosition, yPosition, direction];
     }
 
-    // print the roverOutput coordinates to console and to the output h2 when this function is called
-    printRoverOutput(){
-        let stringifiedRoverOutput = this.roverOutput[0] + ', ' + this.roverOutput[1] + ', ' + this.roverOutput[2];
+    // set and print the output after a successful movement
+    printRoverOutput(position){
+        let stringifiedRoverOutput = position[0] + ', ' + position[1] + ', ' + position[2];
         roverOutput[0].innerHTML = stringifiedRoverOutput;
+    }
+
+    // print an error if there is an unsuccessful movement
+    printRoverError(){
+        roverOutput[0].innerHTML = 'There has been an error. Please check your rover inputs and try again.';
+    }
+
+    // see if the rover has reached the edge of the current map
+    checkMapEdge(xPosition, yPosition, mapObj){
+        if (xPosition > mapObj.mapEdge){
+            currentX = 0;
+        } else if (xPosition < 0){
+            currentX = mapObj.mapEdge;
+        }
+        if (yPosition > mapObj.mapEdge){
+            currentY = 0;
+        } else if (yPosition < 0){
+            currentY = mapObj.mapEdge;
+        }
+    }
+
+    // move the rover forward by 1 unit in the appropriate direction
+    moveForward(mapEdge, direction, xPosition, yPosition){
+        switch (direction){
+            case 'N':
+                yPosition++;
+                break;
+            case 'S':
+                yPosition--;
+                break;
+            case 'E':
+                xPosition++;
+                break;
+            case 'W':
+                xPosition--;
+                break;
+        }
+        currentX = xPosition;
+        currentY = yPosition;
+        this.checkMapEdge(currentX, currentY, mapEdge);
+    }
+
+    // turn the rover to its new direction
+    turnRover(instruction, direction){
+        if (instruction === 'L'){
+            switch (direction){
+                case 'N':
+                    currentDir = 'W';
+                    break;
+                case 'E':
+                    currentDir = 'N';
+                    break;
+                case 'S':
+                    currentDir = 'E';
+                    break;
+                case 'W':
+                    currentDir = 'S';
+                    break;
+            }
+        } else {
+            switch (direction){
+                case 'N':
+                    currentDir = 'E';
+                    break;
+                case 'E':
+                    currentDir = 'S';
+                    break;
+                case 'S':
+                    currentDir = 'W';
+                    break;
+                case 'W':
+                    currentDir = 'N';
+                    break;
+            }
+        }
+    }
+
+    // function to move the rover when called with a set of instructions
+    moveRover(mapEdge, instructions){
+        currentX = this.startPosition[0];
+        currentY = this.startPosition[1];
+        currentDir = this.startPosition[2];
+        if (!currentX || !currentY || !currentDir || mapEdge.mapEdge === ""){
+            this.printRoverError();
+        } else {
+            for (let i = 0; i < instructions.length; i++){
+                if (instructions[i] === 'M'){
+                    this.moveForward(mapEdge, currentDir, currentX, currentY);
+                } else if (instructions[i] === 'L' || instructions[i] === 'R'){
+                    this.turnRover(instructions[i], currentDir);
+                }
+            }
+            this.finalPosition = [currentX, currentY, currentDir];
+            this.printRoverOutput(this.finalPosition);
+        }
     }
 }
 
-// event listener for submit button on input form
+// event listener for submit button on input form. creates map, rover, grabs inputs, and gives the instructions to the move rover function
 submit.addEventListener('click', e => {
     e.preventDefault();
-
-    gridSize();
     startPosition();
-    setInstructions();
-
-    // I need to build this error handling in somewhere else but commenting out for now
-    // if (!userMapEdge || !userXCoordinate || !userYCoordinate || !userDirection){
-    //     roverOutput[0].innerHTML = "There has been an error. Please check your rover inputs and try again.";
-    // } else {
-
-    // create new Rover and print the final coordinates
+    let instructions = document.getElementsByClassName("instructions")[0].value.trim().toUpperCase().split("");
+    const testMap = new Map(document.getElementsByClassName("mapEdge")[0].value.trim())
     const testRover = new Rover(assembledUserCoordinates);
-    console.log(testRover);
-    testRover.printRoverOutput();
+    testRover.moveRover(testMap, instructions);
 })

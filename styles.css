@@ -84,8 +84,9 @@ footer {
 }
 
 .output {
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
+    width: calc(100% - 6px);
     border: 3px solid #FFF;
     color: #000;
     background-color: yellow;
